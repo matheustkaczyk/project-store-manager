@@ -1,6 +1,7 @@
 const { getConnection } = require('./connection');
 
-const create = async (name, quantity) => getConnection()
+const create = async (name, quantity) => 
+    getConnection()
     .then((db) => db.collection('products').insertOne({ name, quantity }))
     .then((result) => ({
         id: result.insertedId,
@@ -9,9 +10,11 @@ const create = async (name, quantity) => getConnection()
 }));
 
 const findByName = async (name) => {
-    getConnection()
+    const productData = await getConnection()
     .then((db) => db.collection('products').findOne({ name }).toArray())
     .then((result) => result);
+
+    return productData;
 };
 
 module.exports = { create, findByName };
