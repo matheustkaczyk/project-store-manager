@@ -9,6 +9,15 @@ const create = async (name, quantity) => {
         return validation;
     }
 
+    // if (error) {
+    //   return {
+    //     err: {
+    //       code: error.code,
+    //       message: error.details[0].message
+    //     }
+    //   }
+    // }
+
     const peopleVerify = await productsModel.findByName(name);
     if (peopleVerify) {
         return {
