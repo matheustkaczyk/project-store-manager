@@ -13,9 +13,9 @@ const productsValidation = (name, quantity) => {
         };
     }
 
-    if (typeof name !== 'string') {
+    if (typeof quantity !== 'number') {
         return {
-            err: { code: 'invalid_data', message: '"name" must be a string' },
+            err: { code: 'invalid_data', message: '"quantity" must be a number' },
         };
     }
 
