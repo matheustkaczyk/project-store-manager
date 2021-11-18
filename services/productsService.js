@@ -13,6 +13,14 @@ const create = async (name, quantity) => {
         };
     }
 
+    if (productsModel.findByName(name)) {
+        return {
+            err: {
+                code: 'invalid_data',
+                message: 'Product already exists',
+            },
+        };
+    }
     return productsModel.create(name, quantity);
 };
 
