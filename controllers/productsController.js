@@ -14,4 +14,23 @@ try {
 }
 };
 
-module.exports = { create };
+const findAll = async (_req, res, next) => {
+    try {
+        const data = await productService.findAll();
+
+        if (data) return res.status(200).json(data);
+    } catch (error) {
+        next(error);
+    }
+};
+
+const findById = (req, res, next) => {
+    try {
+        const { id } = req.params;
+        console.log(id);
+    } catch (error) {
+        next(error);
+    }
+};
+
+module.exports = { create, findAll, findById };
