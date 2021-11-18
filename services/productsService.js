@@ -7,20 +7,20 @@ const create = async (name, quantity) => {
     if (error) {
         return {
             err: {
-                code: 'invalid_data',
-                message: `${error.details[0].message}`,
+                code: 'invalid_data', message: `${error.details[0].message}`,
             },
         };
     }
 
-    if (productsModel.findByName(name)) {
+    const peopleVerify = await productsModel.findByName(name);
+    if (peopleVerify) {
         return {
             err: {
-                code: 'invalid_data',
-                message: 'Product already exists',
+                code: 'invalid_data', message: 'Product already exists',
             },
         };
     }
+
     return productsModel.create(name, quantity);
 };
 
