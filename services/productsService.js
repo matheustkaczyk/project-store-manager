@@ -2,14 +2,11 @@ const productsModel = require('../models/productsModel');
 const productsValidation = require('../validations/productsValidation');
 
 const create = async (name, quantity) => {
-    const { error } = productsValidation(name, quantity);
+    // const { error } = productsValidation(name, quantity);
+    const validation = productsValidation(name, quantity);
 
-    if (error) {
-        return {
-            err: {
-                code: 'invalid_data', message: `${error.details[0].message}`,
-            },
-        };
+    if (validation !== true) {
+        return validation;
     }
 
     const peopleVerify = await productsModel.findByName(name);
