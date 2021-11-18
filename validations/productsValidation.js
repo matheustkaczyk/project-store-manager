@@ -1,7 +1,7 @@
 // const Joi = require('joi');
 
 const productsValidation = (name, quantity) => {
-    const data = { name, quantity };
+    // const data = { name, quantity };
 
     if (name.length < 4) {
         return {
