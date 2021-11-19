@@ -31,7 +31,7 @@ const findById = async (req, res, next) => {
 
         if (data.err) return res.status(422).json(data);
 
-        res.status(200).json(data);
+        res.status(200).json(data[0]);
     } catch (error) {
         next(error);
     }

@@ -20,6 +20,6 @@ const findAll = async () => getConnection()
 
 const findById = async (id) => getConnection()
     .then((db) => db.collection('products').find({ _id: ObjectId(id) }).toArray())
-    .then((result) => ({ products: result }));
+    .then((result) => (result));
 
 module.exports = { create, findByName, findAll, findById };
