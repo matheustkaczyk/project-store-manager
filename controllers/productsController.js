@@ -52,4 +52,16 @@ const updateById = async (req, res, next) => {
     }
 };
 
-module.exports = { create, findAll, findById, updateById };
+const remove = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        
+        const data = await productService.remove(id);
+
+        res.status(200).json(data);
+    } catch (error) {
+        next(error);
+    }
+};
+
+module.exports = { create, findAll, findById, updateById, remove };

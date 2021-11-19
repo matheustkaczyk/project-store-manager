@@ -35,4 +35,8 @@ const findById = async (id) => getConnection()
     .then((db) => db.collection('products').find({ _id: ObjectId(id) }).toArray())
     .then((result) => (result));
 
-module.exports = { create, findByName, findAll, findById, updateById };
+const remove = async (id) => getConnection()
+    .then((db) => db.collection('products').deleteOne({ _id: ObjectId(id) }))
+    .then((result) => ({ result }));
+
+module.exports = { create, findByName, findAll, findById, updateById, remove };

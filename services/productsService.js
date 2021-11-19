@@ -35,7 +35,7 @@ const findById = async (id) => {
 
 const updateById = async (id, name, quantity) => {
     const validation = productsValidation(name, quantity);
-    
+
     if (validation !== true) {
         return validation;
     }
@@ -43,4 +43,16 @@ const updateById = async (id, name, quantity) => {
     return productsModel.updateById(id, name, quantity);
 };
 
-module.exports = { create, findAll, findById, updateById };
+const remove = async (id) => {
+    const doesExist = await productsModel.findById(id);
+
+    if (doesExist !== []) return ({ err: { code: 'invalid_data', message: 'Wrong id format' } });
+
+    if (id && doesExist) {
+        productsModel.remove(id);
+    }
+
+    return (doesExist[0]);
+};
+
+module.exports = { create, findAll, findById, updateById, remove };
