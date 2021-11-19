@@ -37,4 +37,19 @@ const findById = async (req, res, next) => {
     }
 };
 
-module.exports = { create, findAll, findById };
+const updateById = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const { name, quantity } = req.body;
+
+        const data = await productService.updateById(id, name, quantity);
+
+        if (data.err) return res.status(422).json(data);
+
+        res.status(200).json(data);
+    } catch (error) {
+        next(error);
+    }
+};
+
+module.exports = { create, findAll, findById, updateById };

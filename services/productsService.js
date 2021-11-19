@@ -33,4 +33,14 @@ const findById = async (id) => {
     return productsModel.findById(id);
 };
 
-module.exports = { create, findAll, findById };
+const updateById = async (id, name, quantity) => {
+    const validation = productsValidation(name, quantity);
+    
+    if (validation !== true) {
+        return validation;
+    }
+
+    return productsModel.updateById(id, name, quantity);
+};
+
+module.exports = { create, findAll, findById, updateById };

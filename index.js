@@ -14,6 +14,6 @@ app.get('/', (_request, response) => {
   response.send();
 });
 
-app.use('/products', require('./controllers/root'));
+app.use('/products', require('./controllers/productsRoot'));
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
