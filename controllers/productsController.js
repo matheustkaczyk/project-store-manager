@@ -24,10 +24,14 @@ const findAll = async (_req, res, next) => {
     }
 };
 
-const findById = (req, res, next) => {
+const findById = async (req, res, next) => {
     try {
         const { id } = req.params;
-        console.log(id);
+        const data = await productService.findById(id);
+
+        if (data.err) return res.status(422).json(data);
+
+        res.status(200).json(data);
     } catch (error) {
         next(error);
     }
