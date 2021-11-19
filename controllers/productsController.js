@@ -58,6 +58,10 @@ const remove = async (req, res, next) => {
         
         const data = await productService.remove(id);
 
+        if (data.err) {
+            return res.status(422).json(data);
+        }
+
         res.status(200).json(data);
     } catch (error) {
         next(error);

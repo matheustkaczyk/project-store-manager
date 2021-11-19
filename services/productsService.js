@@ -44,15 +44,21 @@ const updateById = async (id, name, quantity) => {
 };
 
 const remove = async (id) => {
-    const doesExist = await productsModel.findById(id);
+    try {
+        const doesExist = await productsModel.findById(id);
 
-    if (doesExist !== []) return ({ err: { code: 'invalid_data', message: 'Wrong id format' } });
-
-    if (id && doesExist) {
-        productsModel.remove(id);
+        if (doesExist.length === 0) {
+            return ({ err: { code: 'invalid_data', message: 'Wrong id format' } });
+        }
+    
+        if (id && doesExist) {
+            productsModel.remove(id);
+        }
+    
+        return (doesExist[0]); 
+    } catch (error) {
+        return ({ err: { code: 'invalid_data', message: 'Wrong id format' } });
     }
-
-    return (doesExist[0]);
 };
 
 module.exports = { create, findAll, findById, updateById, remove };
