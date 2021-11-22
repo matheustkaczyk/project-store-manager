@@ -52,7 +52,6 @@ const remove = async (id) => {
     } catch (error) {
         return ({ err: { code: 'invalid_data', message: 'Wrong sale ID format' } });
     }
-    
 };
 
 module.exports = { create, getAll, getById, update, remove };
