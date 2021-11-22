@@ -26,7 +26,7 @@ const getAll = async (_req, res, next) => {
     }
 };
 
-const getById = async (req, res, next) => {
+const getById = async (req, res) => {
     try {
         const { id } = req.params;
         const data = await salesService.getById(id);
