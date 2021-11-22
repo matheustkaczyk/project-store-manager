@@ -20,4 +20,8 @@ const update = async (id, sale) => getConnection()
     }))
     .then((result) => result);
 
-module.exports = { create, getAll, getById, update };
+const remove = async (id) => getConnection()
+    .then((db) => db.collection('sales').deleteOne({ _id: ObjectId(id) }))
+    .then((result) => result);
+
+module.exports = { create, getAll, getById, update, remove };

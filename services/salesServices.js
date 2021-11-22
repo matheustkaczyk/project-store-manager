@@ -39,4 +39,15 @@ const update = async (id, sale) => {
     return ({ err: { code: 'not_found', message: 'Sale not found' } });
 };
 
-module.exports = { create, getAll, getById, update };
+const remove = async (id) => {
+    const previousData = await salesModel.getById(id);
+    const data = await salesModel.remove(id);
+
+    if (previousData.length === 0 && data.deletedCount === 0) {
+        return ({ err: { code: 'invalid_data', message: 'Wrong sale ID format' } });
+    }
+
+    return previousData[0];
+};
+
+module.exports = { create, getAll, getById, update, remove };

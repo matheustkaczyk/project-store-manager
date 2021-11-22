@@ -53,4 +53,18 @@ const update = async (req, res, next) => {
     }
 };
 
-module.exports = { create, getAll, getById, update };
+const remove = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+
+        const data = await salesService.remove(id);
+
+        if (data.err) return res.status(422).json(data);
+
+        res.status(200).json(data);
+    } catch (error) {
+        next(error);
+    }
+};
+
+module.exports = { create, getAll, getById, update, remove };
