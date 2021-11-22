@@ -27,4 +27,16 @@ const getById = async (id) => {
     return data[0];
 };
 
-module.exports = { create, getAll, getById };
+const update = async (id, sale) => {
+    const validate = await salesValidation(sale);
+
+    if (validate.err) return (validate);
+
+    const data = await salesModel.update(id, { itensSold: sale });
+
+    if (data.modifiedCount > 0) return ({ _id: id, itensSold: [...sale] });
+
+    return ({ err: { code: 'not_found', message: 'Sale not found' } });
+};
+
+module.exports = { create, getAll, getById, update };

@@ -13,4 +13,11 @@ const getById = async (id) => getConnection()
     .then((db) => db.collection('sales').find({ _id: ObjectId(id) }).toArray())
     .then((result) => result);
 
-module.exports = { create, getAll, getById };
+const update = async (id, sale) => getConnection()
+    .then((db) => db.collection('sales').updateOne({ _id: ObjectId(id) },
+    {
+        $set: sale,
+    }))
+    .then((result) => result);
+
+module.exports = { create, getAll, getById, update };
