@@ -40,14 +40,19 @@ const update = async (id, sale) => {
 };
 
 const remove = async (id) => {
-    const previousData = await salesModel.getById(id);
-    const data = await salesModel.remove(id);
+    try {
+        const previousData = await salesModel.getById(id);
+        const data = await salesModel.remove(id);
 
-    if (previousData.length === 0 && data.deletedCount === 0) {
+        if (previousData.length === 0 || data.deletedCount === 0) {
+            return ({ err: { code: 'invalid_data', message: 'Wrong sale ID format' } });
+        }
+
+        return previousData[0];
+    } catch (error) {
         return ({ err: { code: 'invalid_data', message: 'Wrong sale ID format' } });
     }
-
-    return previousData[0];
+    
 };
 
 module.exports = { create, getAll, getById, update, remove };
