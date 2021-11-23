@@ -15,13 +15,11 @@ const create = async (salesArray) => {
     }
 
     salesArray.forEach(async ({ productId, quantity: q }) => {
-        const sales = await productModel.findById(productId);
-        const productVal = Object.values({ ...sales });
+        const products = await productModel.findById(productId);
+        const productVal = Object.values({ ...products });
 
         const newProduct = productVal.map((sale) => ({
-            name: sale.name,
-            quantity: sale.quantity - q,
-        }));
+            name: sale.name, quantity: sale.quantity - q }));
         const { name, quantity } = newProduct[0];
 
         await productModel.updateById(productId, name, quantity);
@@ -77,6 +75,15 @@ const remove = async (id) => {
     try {
         const previousData = await salesModel.getById(id);
         const data = await salesModel.remove(id);
+
+        const dataValues = Object.values(previousData);
+        dataValues.forEach((saleInfo) => Object.values(saleInfo.itensSold)
+        .forEach(async ({ productId, quantity: q }) => {
+            const oldP = await productModel.findById(productId);
+            const newP = { _id: productId, name: oldP[0].name, quantity: q + oldP[0].quantity };
+            const products = await productModel.updateById(productId, newP.name, newP.quantity);
+            return products;
+        }));
 
         if (previousData.length === 0 || data.deletedCount === 0) {
             return ({ err: { code: 'invalid_data', message: 'Wrong sale ID format' } });
