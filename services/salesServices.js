@@ -2,9 +2,10 @@ const salesModel = require('../models/salesModel');
 const productModel = require('../models/productsModel');
 const { salesValidation } = require('../validations/salesValidation');
 
-// const message = {
-//     qty: 'Such amount in not permitted to sell',
-// };
+const message = {
+    qty: 'Such amount in not permitted to sell',
+    notFound: 'Sale not found',
+};
 
 const create = async (salesArray) => {
     const validation = await salesValidation(salesArray);
@@ -46,7 +47,7 @@ const create = async (salesArray) => {
 const getAll = async () => {
     const data = await salesModel.getAll();
 
-    if (data.length === 0) return ({ err: { code: 'not_found', message: 'Sale not found' } });
+    if (data.length === 0) return ({ err: { code: 'not_found', message: message.notFound } });
 
     return ({ sales: [...data] });
 };
@@ -54,7 +55,7 @@ const getAll = async () => {
 const getById = async (id) => {
     const data = await salesModel.getById(id);
 
-    if (data.length === 0) return ({ err: { code: 'not_found', message: 'Sale not found' } });
+    if (data.length === 0) return ({ err: { code: 'not_found', message: message.notFound } });
 
     return data[0];
 };
