@@ -1,5 +1,10 @@
 const salesModel = require('../models/salesModel');
+const productModel = require('../models/productsModel');
 const { salesValidation } = require('../validations/salesValidation');
+
+// const message = {
+//     qty: 'Such amount in not permitted to sell',
+// };
 
 const create = async (salesArray) => {
     const validation = await salesValidation(salesArray);
@@ -8,8 +13,35 @@ const create = async (salesArray) => {
         return validation;
     }
 
-    return salesModel.create(salesArray);
-};
+    salesArray.forEach(async ({ productId, quantity: q }) => {
+        const sales = await productModel.findById(productId);
+        const productVal = Object.values({ ...sales });
+
+        const newProduct = productVal.map((sale) => ({
+            name: sale.name,
+            quantity: sale.quantity - q,
+        }));
+        const { name, quantity } = newProduct[0];
+
+        await productModel.updateById(productId, name, quantity);
+    });
+
+    // const quantityVal = salesArray.every(async ({ productId }) => {
+    //     const sales = await productModel.findById(productId);
+    //     const qtdCheck = sales.every(({ quantity }) => quantity <= 0);
+    //     return qtdCheck;
+    // });
+
+    // if (quantityVal === true) {
+    //     return ({
+    //         err: {
+    //             code: 'stock_problem',
+    //             message: 'Such amount is not permitted to sell',
+    //         },
+    //     });
+    // }
+        return salesModel.create(salesArray);
+    };
 
 const getAll = async () => {
     const data = await salesModel.getAll();
@@ -29,6 +61,7 @@ const getById = async (id) => {
 
 const update = async (id, sale) => {
     const validate = await salesValidation(sale);
+    console.log('update ?', sale);
 
     if (validate.err) return (validate);
 
