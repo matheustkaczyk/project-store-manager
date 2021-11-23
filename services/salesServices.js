@@ -28,7 +28,7 @@ const create = async (salesArray) => {
     // const quantityVal = salesArray.every(async ({ productId }) => {
     //     const sales = await productModel.findById(productId);
     //     const qtdCheck = sales.every(({ quantity }) => quantity <= 0);
-    //     return qtdCheck
+    //     return qtdCheck;
     // });
 
     // if (quantityVal === true) {
