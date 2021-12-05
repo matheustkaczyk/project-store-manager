@@ -1,6 +1,6 @@
 const salesModel = require('../models/salesModel');
 const productModel = require('../models/productsModel');
-const { salesValidation } = require('../validations/salesValidation');
+const { salesValidation, productValidation } = require('../validations/salesValidation');
 
 const message = {
     qty: 'Such amount in not permitted to sell',
@@ -9,6 +9,16 @@ const message = {
 
 const create = async (salesArray) => {
     const validation = await salesValidation(salesArray);
+    const qtyValidation = await productValidation(salesArray);
+
+    if (qtyValidation !== true) {
+        return qtyValidation;
+    }
+
+    // if (qtyValidation !== true) {
+    //     return ({
+    //         err: { code: 'stock_problem', message: 'Such amount is not permitted to sell' } }); 
+    // }
 
     if (validation.err) {
         return validation;
@@ -25,20 +35,6 @@ const create = async (salesArray) => {
         await productModel.updateById(productId, name, quantity);
     });
 
-    // const quantityVal = salesArray.every(async ({ productId }) => {
-    //     const sales = await productModel.findById(productId);
-    //     const qtdCheck = sales.every(({ quantity }) => quantity <= 0);
-    //     return qtdCheck;
-    // });
-
-    // if (quantityVal === true) {
-    //     return ({
-    //         err: {
-    //             code: 'stock_problem',
-    //             message: 'Such amount is not permitted to sell',
-    //         },
-    //     });
-    // }
         return salesModel.create(salesArray);
     };
 

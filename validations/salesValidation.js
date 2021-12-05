@@ -1,4 +1,4 @@
-const productsModel = require('../models/productsModel');
+const productModel = require('../models/productsModel');
 
 const message = {
     IdOrQty: 'Wrong product ID or invalid quantity',
@@ -13,7 +13,7 @@ const verifyQuantity = (sale) => {
 
 const verifyProductId = async (sales) => {
     const checking = sales.every(async ({ productId }) => {
-        const checkingId = await productsModel.findById(productId);
+        const checkingId = await productModel.findById(productId);
         return checkingId;
     });
 
@@ -45,4 +45,21 @@ const salesValidation = async (sales) => {
     return true;
 };
 
-module.exports = { salesValidation };
+const productValidation = async (sales) => {
+    sales.forEach(async ({ productId }) => {
+    const product = await productModel.findById(productId);
+    const qtyCheck = product.some(({ quantity }) => quantity < 0);
+
+    if (qtyCheck === true) {
+        return ({
+            err: {
+                code: 'stock_problem', message: 'Such amount is not permitted to sell',
+            },
+        });
+    }
+
+    return qtyCheck;
+    });
+};
+
+module.exports = { salesValidation, productValidation };
