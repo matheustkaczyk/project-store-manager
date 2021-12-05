@@ -8,6 +8,8 @@ Para iniciar o projeto você deve:
 * `git clone git@github.com:matheustkaczyk/project-store-manager.git`
 * Entre na pasta que você acabou de clonar
 * `cd project-store-manager`
+* Alterar a váriavel de ambiente
+* `Troque o nome do arquivo de .env.dev para apenas .env`
 
 2. Instale as dependências e inicializa o projeto:
 * Instalando as dependências
