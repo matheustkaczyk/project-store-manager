@@ -1,7 +1,7 @@
 # project-store-manager
 Projeto desenvolvido durante o curso de desenvolvimento de software na Trybe, no módulo de Back-end.
 A idéia do projeto foi de criar um CRUD de vendas em uma loja, efetuando todas as operações de produtos e vendas.
-Projeto foi desenvolvido em Node.js em conjunto com express.js.
+Projeto foi desenvolvido em Node.js em conjunto com express.js e botando em prática os conhecimentos de arquiteture MSC.
 
 Para iniciar o projeto você deve:
 1. Clonar o repositório
